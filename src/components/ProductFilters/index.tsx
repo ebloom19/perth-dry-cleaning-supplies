@@ -36,8 +36,8 @@ export function ProductFilters({ categories }: Props) {
     router.push(`/shop?${params.toString()}`)
   }
 
-  const handleCategoryChange = (categoryId: string) => {
-    updateFilters({ category: categoryId === selectedCategory ? null : categoryId })
+  const handleCategoryChange = (categoryId: number) => {
+    updateFilters({ category: categoryId.toString() === selectedCategory ? null : categoryId.toString() })
   }
 
   const handleInStockChange = (checked: boolean) => {
@@ -133,7 +133,7 @@ type FiltersContentProps = {
   inStockOnly: boolean
   minPrice: string | null
   maxPrice: string | null
-  onCategoryChange: (categoryId: string) => void
+  onCategoryChange: (categoryId: number) => void
   onInStockChange: (checked: boolean) => void
   onPriceChange: (min: string, max: string) => void
   onClearFilters: () => void
@@ -182,7 +182,7 @@ function FiltersContent({
               <div key={category.id} className="flex items-center space-x-2">
                 <Checkbox
                   id={`category-${category.id}`}
-                  checked={selectedCategory === category.id}
+                  checked={selectedCategory === category.id.toString()}
                   onCheckedChange={() => onCategoryChange(category.id)}
                 />
                 <label
