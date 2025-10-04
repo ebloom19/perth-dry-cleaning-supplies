@@ -1,20 +1,21 @@
+import { ecommercePlugin } from '@payloadcms/plugin-ecommerce'
 import { formBuilderPlugin } from '@payloadcms/plugin-form-builder'
 import { seoPlugin } from '@payloadcms/plugin-seo'
-import { Plugin } from 'payload'
 import { GenerateTitle, GenerateURL } from '@payloadcms/plugin-seo/types'
 import { FixedToolbarFeature, HeadingFeature, lexicalEditor } from '@payloadcms/richtext-lexical'
-import { ecommercePlugin } from '@payloadcms/plugin-ecommerce'
+import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
+import { Plugin } from 'payload'
 
 import { stripeAdapter } from '@payloadcms/plugin-ecommerce/payments/stripe'
 
-import { Page, Product } from '@/payload-types'
-import { getServerSideURL } from '@/utilities/getURL'
-import { ProductsCollection } from '@/collections/Products'
-import { adminOrCustomerOwner } from '@/access/adminOrCustomerOwner'
-import { adminOrPublishedStatus } from '@/access/adminOrPublishedStatus'
 import { adminOnly } from '@/access/adminOnly'
 import { adminOnlyFieldAccess } from '@/access/adminOnlyFieldAccess'
+import { adminOrCustomerOwner } from '@/access/adminOrCustomerOwner'
+import { adminOrPublishedStatus } from '@/access/adminOrPublishedStatus'
 import { customerOnlyFieldAccess } from '@/access/customerOnlyFieldAccess'
+import { ProductsCollection } from '@/collections/Products'
+import { Page, Product } from '@/payload-types'
+import { getServerSideURL } from '@/utilities/getURL'
 
 const generateTitle: GenerateTitle<Product | Page> = ({ doc }) => {
   return doc?.title ? `${doc.title} | Payload Ecommerce Template` : 'Payload Ecommerce Template'
@@ -88,5 +89,14 @@ export const plugins: Plugin[] = [
     products: {
       productsCollectionOverride: ProductsCollection,
     },
+  }),
+  vercelBlobStorage({
+    enabled: true, // Optional, defaults to true
+    // Specify which collections should use Vercel Blob
+    collections: {
+      media: true,
+    },
+    // Token provided by Vercel once Blob storage is added to your Vercel project
+    token: process.env.BLOB_READ_WRITE_TOKEN,
   }),
 ]
