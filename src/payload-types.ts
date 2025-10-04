@@ -473,6 +473,7 @@ export interface Page {
     | MediaBlock
     | ArchiveBlock
     | CarouselBlock
+    | FeaturedCategoriesBlock
     | ThreeItemGridBlock
     | BannerBlock
     | FormBlock
@@ -587,6 +588,14 @@ export interface ArchiveBlock {
 export interface Category {
   id: number;
   title: string;
+  /**
+   * Brief description of the category (optional)
+   */
+  description?: string | null;
+  /**
+   * Category image for featured displays (optional)
+   */
+  image?: (number | null) | Media;
   slug: string;
   slugLock?: boolean | null;
   updatedAt: string;
@@ -623,6 +632,17 @@ export interface CarouselBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'carousel';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FeaturedCategoriesBlock".
+ */
+export interface FeaturedCategoriesBlock {
+  heading?: string | null;
+  categories: (number | Category)[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'featuredCategories';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1190,6 +1210,7 @@ export interface PagesSelect<T extends boolean = true> {
         mediaBlock?: T | MediaBlockSelect<T>;
         archive?: T | ArchiveBlockSelect<T>;
         carousel?: T | CarouselBlockSelect<T>;
+        featuredCategories?: T | FeaturedCategoriesBlockSelect<T>;
         threeItemGrid?: T | ThreeItemGridBlockSelect<T>;
         banner?: T | BannerBlockSelect<T>;
         formBlock?: T | FormBlockSelect<T>;
@@ -1297,6 +1318,16 @@ export interface CarouselBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FeaturedCategoriesBlock_select".
+ */
+export interface FeaturedCategoriesBlockSelect<T extends boolean = true> {
+  heading?: T;
+  categories?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "ThreeItemGridBlock_select".
  */
 export interface ThreeItemGridBlockSelect<T extends boolean = true> {
@@ -1331,6 +1362,8 @@ export interface FormBlockSelect<T extends boolean = true> {
  */
 export interface CategoriesSelect<T extends boolean = true> {
   title?: T;
+  description?: T;
+  image?: T;
   slug?: T;
   slugLock?: T;
   updatedAt?: T;

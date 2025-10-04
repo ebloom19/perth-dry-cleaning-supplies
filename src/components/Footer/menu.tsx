@@ -12,11 +12,15 @@ export function FooterMenu({ menu }: Props) {
 
   return (
     <nav>
-      <ul>
+      <ul className="space-y-2">
         {menu.map((item) => {
           return (
             <li key={item.id}>
-              <CMSLink appearance="link" {...item.link} />
+              <CMSLink
+                appearance="link"
+                {...item.link}
+                className="hover:text-black dark:hover:text-white transition-colors"
+              />
             </li>
           )
         })}

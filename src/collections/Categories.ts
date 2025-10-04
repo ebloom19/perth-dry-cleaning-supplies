@@ -16,6 +16,21 @@ export const Categories: CollectionConfig = {
       type: 'text',
       required: true,
     },
+    {
+      name: 'description',
+      type: 'text',
+      admin: {
+        description: 'Brief description of the category (optional)',
+      },
+    },
+    {
+      name: 'image',
+      type: 'upload',
+      relationTo: 'media',
+      admin: {
+        description: 'Category image for featured displays (optional)',
+      },
+    },
     ...slugField('title', {
       slugOverrides: {
         required: true,
